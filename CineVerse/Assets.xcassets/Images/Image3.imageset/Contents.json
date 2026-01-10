@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "l_five-nights-at-freddys-2-movie-poster_8ce92b9d.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
