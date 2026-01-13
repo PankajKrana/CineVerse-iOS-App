@@ -1,26 +1,38 @@
+//
+//  MoviesView.swift
+//  CineVerse
+//
+//  Created by Pankaj Kumar Rana on 13/01/26.
+//
+
 import SwiftUI
 
 struct MoviesView: View {
-    @StateObject private var viewModel = MoviesViewModel()
+    @StateObject private var vm = MoviesViewModel()
 
     var body: some View {
         NavigationStack {
-            Group {
-                if viewModel.isLoading {
-                    ProgressView("Loading movies...")
-                } else if let error = viewModel.errorMessage {
-                    Text(error)
-                        .foregroundColor(.red)
-                } else {
-                    List(viewModel.movies) { movie in
+            ScrollView {
+                LazyVStack(spacing: 12) {
+                    ForEach(vm.movies) { movie in
                         MovieRow(movie: movie)
+                            .padding(.horizontal)
+                    }
+
+                    if vm.isLoading && vm.movies.isEmpty {
+                        ProgressView()
+                            .padding()
                     }
                 }
             }
             .navigationTitle("Movies")
         }
-        .task {
-            await viewModel.fetchMovies()
+        .onAppear {
+            vm.fetchMoviesPage1To10()
         }
     }
+}
+
+#Preview {
+    MoviesView()
 }

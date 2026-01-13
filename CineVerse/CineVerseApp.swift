@@ -11,7 +11,8 @@ import SwiftUI
 struct CineVerseApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            ContentView()
+            MoviesView()
         }
     }
 }
