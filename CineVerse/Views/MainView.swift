@@ -8,8 +8,19 @@
 import SwiftUI
 
 struct MainView: View {
+    @StateObject private var vm = MoviesViewModel()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        TabView {
+            Tab("Home", systemImage: "house.fill") {
+                MoviesView()
+            }
+            Tab("Search", systemImage: "magnifyingglass", role: .search) {
+                SearchView()
+                    .searchable(text: $vm.searchText)
+
+            }
+            
+        }
     }
 }
 
