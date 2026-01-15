@@ -12,25 +12,34 @@ struct SearchView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                if vm.movies.isEmpty && !vm.searchText.isEmpty && !vm.isLoading {
-                    // Empty state
-                    Text("No movies found")
-                        .foregroundStyle(.secondary)
-                        .padding(.top, 40)
-                } else {
-                    LazyVStack(spacing: 12) {
-                        ForEach(vm.movies) { movie in
-                            MovieRow(movie: movie)
-                                .padding(.horizontal)
-                        }
+            Group {
 
-                        if vm.isLoading {
-                            ProgressView()
-                                .padding()
-                        }
+                // Empty state
+                if vm.searchText.isEmpty {
+                    ContentUnavailableView(
+                        "Search Movies",
+                        systemImage: "magnifyingglass",
+                        description: Text("Type a movie name to start searching")
+                    )
+
+                } else if vm.searchResults.isEmpty && vm.state != .loading {
+                    ContentUnavailableView(
+                        "No Results",
+                        systemImage: "film",
+                        description: Text("Try a different movie name")
+                    )
+
+                } else {
+                    List(vm.searchResults) { movie in
+                        MovieRow(movie: movie)
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.clear)
                     }
+                    .listStyle(.plain)
                 }
+            }
+            .task {
+                
             }
             .navigationTitle("Search")
             .searchable(
@@ -38,6 +47,11 @@ struct SearchView: View {
                 placement: .navigationBarDrawer(displayMode: .always),
                 prompt: "Search movies"
             )
+            .overlay {
+                if vm.state == .loading {
+                    ProgressView()
+                }
+            }
         }
     }
 }
